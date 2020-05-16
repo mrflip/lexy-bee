@@ -1,4 +1,5 @@
-import React, { useState }      from 'react'
+import React, { useState, useCallback
+}                          /**/ from 'react'
 import { StyleSheet, View }     from 'react-native'
 import { Button, Input, Icon }  from 'react-native-elements'
 import { useMutation }          from '@apollo/client'
@@ -28,12 +29,13 @@ const LetterButton = ({ letter, handler }) => (
 const GuessInput = ({ bee, onAdd }) => {
   const [entry, setEntry] = useState('')
 
-  const addLetter  = (letter) => setEntry((ee) => (ee + letter.toLowerCase()))
-  const delLetter  = ()       => setEntry((ee) => (ee.substring(0, entry.length - 1)))
-  const clearEntry = ()       => setEntry('')
+
+  const addLetter  = useCallback((letter) => setEntry((ee) => (ee + letter.toLowerCase())),      [setEntry])
+  const delLetter  = useCallback(()       => setEntry((ee) => (ee.substring(0, ee.length - 1))), [setEntry])
+  const clearEntry = useCallback(()       => setEntry(''), [setEntry])
   const [beePutMu] = useMutation(Ops.bee_put_mu)
 
-  const addGuess = () => {
+  const addGuess = useCallback(() => {
     if (bee.hasWord(entry)) {
       clearEntry()
       onAdd({ guess: { word: entry, len: entry.length } })
@@ -51,7 +53,7 @@ const GuessInput = ({ bee, onAdd }) => {
     // .catch((err)  => console.log('put err', err)) // eslint-disable-line
     onAdd({ guess })
     clearEntry()
-  }
+  }, [entry, setEntry])
 
   return (
     <View style={styles.container}>
