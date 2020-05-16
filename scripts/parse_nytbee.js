@@ -8,7 +8,7 @@ import glob                  from 'glob'
 import Bee                   from '../src/lib/Bee'
 
 // --- Setup
-// ( cd /data/ripd; wget -r -l100000 --no-clobber -nv https://nytbee.com/Bee_`date +"%Y%m%d"`.html && cd ~- && ./data/parse_nytbee.js )
+// ( cd /data/ripd; wget -r -l100000 --no-clobber -nv https://nytbee.com/Bee_`date +"%Y%m%d"`.html && cd ~- && ./scripts/parse_nytbee.js )
 const data_dir = '/data/ripd/nytbee.com'
 
 // --- Parse

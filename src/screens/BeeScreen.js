@@ -1,6 +1,6 @@
 import React, { useState }      from 'react'
 import _                        from 'lodash'
-import { StyleSheet, Text, View, KeyboardAvoidingView,
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform,
 }                               from 'react-native'
 import { Button }               from 'react-native-elements'
 import { useQuery, useMutation,
@@ -44,7 +44,7 @@ const BeeScreenComp = ({ bee, reveal, showHints }) => {
         wordListRef = {(el) => { els.wordList = el }}
       />
       <GuessInput bee={bee} onAdd={(params) => onAdd({ ...params, el: els.wordList })} />
-      <View>
+      <View style={styles.container}>
         <Text>
           {bee.summary('scr')}
         </Text>
@@ -93,7 +93,11 @@ const BeeScreen = ({ navigation, route }) => {
   //
   // console.log(bee)
   return (
-    <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={16} behavior="height">
+    <KeyboardAvoidingView
+      behavior                    = {Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset      = {25}
+      style                       = {styles.container}
+    >
       <BeeScreenComp bee={bee} reveal={reveal} showHints={showHints} />
     </KeyboardAvoidingView>
   )
