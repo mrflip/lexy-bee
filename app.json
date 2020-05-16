@@ -5,7 +5,7 @@
     "description": "Search words and definitions",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "platforms": [
       "ios",
       "android",
@@ -30,12 +30,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mrflip.lexybee",
-      "buildNumber": "1.0.6",
+      "buildNumber": "1.0.7",
       "requireFullScreen": false
     },
     "android": {
       "package": "com.tooksome.peregrin",
-      "versionCode": 360010006,
+      "versionCode": 360010007,
       "permissions": [
         "CAMERA"
       ]
