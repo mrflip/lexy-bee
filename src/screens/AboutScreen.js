@@ -20,7 +20,7 @@ const AboutScreen = () => (
         Team
       </Text>
       <Text style={styles.aboutText}>
-        Lexy-Bee Version: 1.0.8
+        Lexy-Bee Version: 1.0.9
       </Text>
     </View>
     <TableDump obj={NytStats} title="Stats" />

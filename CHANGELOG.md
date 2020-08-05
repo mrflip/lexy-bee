@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.9](https://github.com/mrflip/lexy-bee/compare/v1.0.8...v1.0.9) (2020-08-05)
+
+
+### Features
+
+* pulled in new words ([5035265](https://github.com/mrflip/lexy-bee/commit/5035265fbb3168b590b07a3fc43f5a77de00e56f))
+* reset button ([e87f926](https://github.com/mrflip/lexy-bee/commit/e87f926775f42f8a7c2e8b42d1495972a3872817))
+* show last update and other stats ([aa8c0ab](https://github.com/mrflip/lexy-bee/commit/aa8c0ab237fea68f6158ff22b0f9c7ff242d5de8))
+
 ### [1.0.8](https://github.com/mrflip/lexy-bee/compare/v1.0.7...v1.0.8) (2020-08-05)
 
 ### 1.0.7 (2020-05-16)
