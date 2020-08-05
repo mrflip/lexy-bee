@@ -1,11 +1,12 @@
 #!/usr/bin/env node -r esm --harmony
 // ^^^ Note that we are using modern JS features; npm install esm
-import _                /**/ from 'lodash'
-import fs                    from 'fs'
-import JSSoup                from 'jssoup'
-import glob                  from 'glob'
+import _                           /**/ from 'lodash'
+import fs                               from 'fs'
+import JSSoup                           from 'jssoup'
+import glob                             from 'glob'
+import moment                           from 'moment'
 //
-import Bee                   from '../src/lib/Bee'
+import Bee                              from '../src/lib/Bee'
 
 // --- Setup
 // ( cd /data/ripd; wget -r -l100000 --no-clobber -nv https://nytbee.com/Bee_`date +"%Y%m%d"`.html && cd ~- && ./scripts/parse_nytbee.js )
@@ -17,6 +18,8 @@ const AllObs   = new Set()
 const AllBees  = []
 
 const VOWELS   = new Set('a', 'e', 'i', 'o', 'u')
+
+let latestBee = 20080800
 
 // For all of the files we downloaded,
 glob(`${data_dir}/Bee*.html`, (err, files) => {
@@ -66,6 +69,8 @@ glob(`${data_dir}/Bee*.html`, (err, files) => {
     // Grab the date from the filename
     words.datestr = filename.replace(/.*Bee_/, '').replace(/\.html/, '')
 
+    if (Number(words.datestr) > latestBee) { latestBee = words.datestr }
+
     // The page is now parsed; rest of this is turning it into the object we want
 
     // add to lexicons
@@ -105,16 +110,23 @@ glob(`${data_dir}/Bee*.html`, (err, files) => {
   const all_ltrs = AllBees.map((bb) => [bb.letters.toUpperCase(), bb.datestr])
   all_ltrs.sort(([_wa, da], [_wb, db]) => (da < db ? 1 : -1))
 
+  const stats = {
+    wordsUpdated:       moment().format('YYYYMMDD'),
+    latestBee,
+    wordsCount:         all_wds.length,
+    nytBeesCount:       all_ltrs.length,
+  }
+
   // Write to disk
 
-  fs.writeFileSync('./data/dict_nyt.json', JSON.stringify(all_wds), { encoding: 'utf8' })
-  fs.writeFileSync('./data/dict_obs.json', JSON.stringify(all_obs), { encoding: 'utf8' })
-  fs.writeFileSync('./data/bees.json',     JSON.stringify(all_ltrs), { encoding: 'utf8' })
+  fs.writeFileSync('./data/dict_nyt.json',  JSON.stringify(all_wds),  { encoding: 'utf8' })
+  fs.writeFileSync('./data/dict_obs.json',  JSON.stringify(all_obs),  { encoding: 'utf8' })
+  fs.writeFileSync('./data/bees.json',      JSON.stringify(all_ltrs), { encoding: 'utf8' })
+  fs.writeFileSync('./data/nyt_stats.json', JSON.stringify(stats),    { encoding: 'utf8' })
 
   // Report on success
 
-  console.log(all_ltrs.length)
-  console.log(all_wds.length)
+  console.log(stats)
 
   // import Dicts from './dicts'
   // console.log(Dicts)

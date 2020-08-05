@@ -2,35 +2,49 @@ import React                    from 'react'
 import { StyleSheet, Text, View,
 }                               from 'react-native'
 //
+import { TableDump }            from '../components/Containers'
 import WebLink                  from '../components/WebLink'
+import NytStats                 from '../../data/nyt_stats.json'
+import Secrets                  from '../../Secrets.js'
 
 const AboutScreen = () => (
-  <View style={[styles.container]}>
-    <Text style={styles.aboutText}>
-      A Demo App from the
+  <View>
+    <View style={[styles.centered]}>
+      <Text style={styles.aboutText}>
+        A Demo App from the
+      </Text>
+      <WebLink style={styles.aboutText} url="https://tookstock.com/">
+        Tookstock
+      </WebLink>
+      <Text style={styles.aboutText}>
+        Team
+      </Text>
+      <Text style={styles.aboutText}>
+        Lexy-Bee Version: 1.0.8
+      </Text>
+    </View>
+    <TableDump obj={NytStats} title="Stats" />
+    <Text style={styles.monoText}>
+      {Secrets.graphql_api}
     </Text>
-    <WebLink style={styles.aboutText} url="https://tooksome.com/">
-      Tooksome
-    </WebLink>
-    <Text style={styles.aboutText}>
-      Team
-    </Text>
-    <Text style={styles.aboutText}>
-      Lexy-Bee Version: 1.0.8
-    </Text>
+
   </View>
 )
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-    alignItems:     'center',
-    paddingTop: 15,
+  centered: {
+    backgroundColor:    '#fafafa',
+    alignItems:         'center',
+    paddingTop:         15,
   },
   aboutText: {
     fontSize: 24,
   },
+  monoText: {
+    fontFamily:                 'space-mono',
+    fontSize:                   14,
+    paddingVertical:            16,
+  }
 })
 
 export default AboutScreen
