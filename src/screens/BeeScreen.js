@@ -14,13 +14,40 @@ import Bee                      from '../lib/Bee'
 
 const els = {}
 
-const BeeScreenComp = ({ bee, reveal, showHints }) => {
+const BeeScreenComp = ({ bee, navigation }) => {
   const [beePutMu]          = useMutation(Ops.bee_put_mu)
-
+  const [reveal,    setReveal]    = useState(0)
+  const [showHints, setShowHints] = useState(false)
+  const incReveal = React.useCallback(
+    (inc) => setReveal((rr) => (_.clamp(rr + inc, 0, 15))),
+  )
+  const toggleHints = () => {
+    setReveal(0)
+    setShowHints((showH) => (! showH))
+  }
+  const resetGuesses = () => {
+    bee.resetGuesses()
+    beePutMu({ variables: bee.serialize() })
+  }
   const delGuess = (word) => {
     bee.delGuess(word)
     beePutMu({ variables: bee.serialize() })
   }
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HintBar
+          reveal        = {reveal}
+          incReveal     = {incReveal}
+          showHints     = {showHints}
+          toggleHints   = {toggleHints}
+          doReset       = {resetGuesses}
+        />
+      ),
+    })
+  }, [navigation, reveal, setReveal, showHints, setShowHints])
+  //
 
   const onAdd = ({ guess, el }) => {
     const sectionForGuess = bee.sectionForGuess(guess)
@@ -60,25 +87,7 @@ const BeeScreenComp = ({ bee, reveal, showHints }) => {
 const BeeScreen = ({ navigation, route }) => {
   const { params = {} } = route
   const { letters }     = params
-  const [reveal,    setReveal]    = useState(0)
-  const [showHints, setShowHints] = useState(false)
-  const incReveal = React.useCallback(
-    (inc) => setReveal((rr) => (_.clamp(rr + inc, 0, 15))),
-  )
-  const toggleHints = () => {
-    setReveal(0)
-    setShowHints((showH) => (! showH))
-  }
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HintBar reveal={reveal} incReveal={incReveal} showHints={showHints} toggleHints={toggleHints} />
-      ),
-    })
-  }, [navigation, reveal, setReveal, showHints, setShowHints])
   //
-
   const { loading, error, data } = useQuery(Ops.bee_get_qy, {
     variables: { letters }, pollInterval: 5000 })
   if (loading)         return <Text>Loading...</Text>
@@ -91,6 +100,8 @@ const BeeScreen = ({ navigation, route }) => {
   const bee = Bee.from(data.bee_get.bee)
   navigation.setOptions({ title: bee.dispLtrs })
   //
+  const resetBee = () => (bee.resetGuesses())
+
   // console.log(bee)
   return (
     <KeyboardAvoidingView
@@ -98,7 +109,7 @@ const BeeScreen = ({ navigation, route }) => {
       keyboardVerticalOffset      = {25}
       style                       = {styles.container}
     >
-      <BeeScreenComp bee={bee} reveal={reveal} showHints={showHints} />
+      <BeeScreenComp bee={bee} navigation={navigation} />
     </KeyboardAvoidingView>
   )
 }

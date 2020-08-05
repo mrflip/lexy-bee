@@ -27,6 +27,12 @@ class Bee {
     this.dispLtrs    = Bee.dispLtrs(this.letters)
   }
 
+  resetGuesses() {
+    this.guesses = []
+    this.nogos   = []
+    this.hints   = this.getHints()
+  }
+
   static getDatestr(date = _.now()) {
     const dt = new Date(date)
     return sprintf("%04d%02d%02d", dt.getFullYear(), 1 + dt.getMonth(), dt.getDate())
