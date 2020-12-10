@@ -17,3 +17,6 @@ web-report/
 .idea
 
 package-lock.json
+
+*.pem
+.expo-shared/*
