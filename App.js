@@ -1,6 +1,6 @@
 import React                       /**/ from 'react'
-import { YellowBox }                    from 'react-native'
-import { SplashScreen }                 from 'expo'
+import { LogBox }                       from 'react-native'
+import * as SplashScreen                from 'expo-splash-screen'
 import * as Font                        from 'expo-font'
 import { Ionicons }                     from '@expo/vector-icons'
 import { NavigationContainer }          from '@react-navigation/native'
@@ -15,13 +15,13 @@ import Cache                            from './src/graphql/Cache'
 import Secrets                          from './Secrets'
 
 // Don't yell at me about other modules' error messages
-YellowBox.ignoreWarnings(['RootErrorBoundary'])
+LogBox.ignoreLogs(['Error: Native splash screen is already hidden'])
 
 const apollo = new ApolloClient({
   cache: Cache,
   link: new HttpLink({
     uri: Secrets.graphql_api,
-    //uri: 'http://localhost:4000/graphql',
+    // uri: 'http://localhost:4000/graphql',
   }),
   typeDefs,
   resolvers,
@@ -37,7 +37,7 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide()
+        SplashScreen.preventAutoHideAsync()
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState())
@@ -52,7 +52,7 @@ export default function App(props) {
         console.warn(err) // eslint-disable-line
       } finally {
         setLoadingComplete(true)
-        SplashScreen.hide()
+        SplashScreen.hideAsync()
       }
     }
 

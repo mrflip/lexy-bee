@@ -4,7 +4,6 @@
     "slug": "lexybee",
     "description": "Search words and definitions",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "version": "1.0.9",
     "platforms": [
       "ios",
