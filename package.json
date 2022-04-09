@@ -37,7 +37,7 @@
     "graphql-tag": "^2.10.3",
     "lodash": "^4.17.20",
     "minimist": "^1.2.5",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
